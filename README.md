@@ -1,0 +1,1 @@
+### Assignment 1 - Painting (CSE 160: Intro to Computer Graphics)
