@@ -2,9 +2,11 @@
 // Vertex shader program
 var VSHADER_SOURCE = `
   attribute vec4 a_Position;
+  uniform float u_Size;
   void main() {
     gl_Position = a_Position;
-    gl_PointSize = 10.0;
+    // gl_PointSize = 10.0;
+    gl_PointSize = u_Size;
   }`
 
 // Fragment shader program
@@ -20,6 +22,7 @@ let canvas;
 let gl; 
 let a_Position;
 let u_FragColor;
+let u_Size;
 
 function setupWebGL() {
   // Retrieve <canvas> element
@@ -54,6 +57,22 @@ function connectVariablesToGLSL() {
     return;
   }
 
+  // Get the storage location of u_Size
+  u_Size = gl.getUniformLocation(gl.program, 'u_Size');
+  if (!u_Size) {
+    console.log('Failed to get the storage location of u_Size');
+    return;
+  }
+}
+
+// global variable for size
+let g_selectedSize = 5;
+
+// Set up actions for HTML UI elements
+function addActionsForHTMLUI() {
+
+  // size slider event
+  document.getElementById("sizeSlider").addEventListener('mouseup', function() { g_selectedSize = this.value });
 }
 
 function main() {
@@ -63,6 +82,9 @@ function main() {
 
   // Set up GLSL shader programs and connect GLSL variables
   connectVariablesToGLSL();
+
+  // Set up actions for HTML UI elements
+  addActionsForHTMLUI();
   
   // Register function (event handler) to be called on a mouse press
   canvas.onmousedown = click;
@@ -76,6 +98,7 @@ function main() {
 
 var g_points = [];  // The array for the position of a mouse press
 var g_colors = [];  // The array to store the color of a point
+var g_sizes = [];   // The array to maintain the size
 
 function click(ev) {
 
@@ -102,6 +125,9 @@ function click(ev) {
   // Store the color selected by user
   g_colors.push([r, g, b, 1.0]);
 
+  // Store the size selected by user
+  g_sizes.push(g_selectedSize);
+
   // Draw every shape that is supposed to be in the canvas
   renderAllShapes();
 }
@@ -127,11 +153,16 @@ function renderAllShapes() {
   for(var i = 0; i < len; i++) {
     var xy = g_points[i];
     var rgba = g_colors[i];
+    var size = g_sizes[i];
 
     // Pass the position of a point to a_Position variable
     gl.vertexAttrib3f(a_Position, xy[0], xy[1], 0.0);
     // Pass the color of a point to u_FragColor variable
     gl.uniform4f(u_FragColor, rgba[0], rgba[1], rgba[2], rgba[3]);
+
+    // Pass the size of a point to u_Size variable
+    gl.uniform1f(u_Size, size);
+
     // Draw
     gl.drawArrays(gl.POINTS, 0, 1);
   }
