@@ -38,10 +38,10 @@ function setupWebGL() {
 
 function connectVariablesToGLSL() {
   // Initialize shaders
-  if (!initShaders(gl, VSHADER_SOURCE, FSHADER_SOURCE)) {
-    console.log('Failed to intialize shaders.');
-    return;
-  }
+  // if (!initShaders(gl, VSHADER_SOURCE, FSHADER_SOURCE)) {
+  //   console.log('Failed to intialize shaders.');
+  //   return;
+  // }
 
   // Get the storage location of a_Position
   a_Position = gl.getAttribLocation(gl.program, 'a_Position');
