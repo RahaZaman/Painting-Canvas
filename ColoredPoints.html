@@ -10,28 +10,51 @@
     Please use a browser that supports "canvas"
     </canvas>
 
-    <h3>Choose RGB Color:</h3>
+    <p id="numdot">Dots/Metrics Tracker</p>
+
+    <h3>Adjust Color, Size, and Segments with Sliders:</h3>
     <label for="redSlider">Red</label>
-    <input type="range" id="redSlider" min="0" max="255" value="255">
+    <input type="range" id="redSlider" min="0" max="100" value="100">
     <br>
 
     <label for="greenSlider">Green</label>
-    <input type="range" id="greenSlider" min="0" max="255" value="255">
+    <input type="range" id="greenSlider" min="0" max="100" value="100">
     <br>
 
     <label for="blueSlider">Blue</label>
-    <input type="range" id="blueSlider" min="0" max="255" value="255">
+    <input type="range" id="blueSlider" min="0" max="100" value="100">
     <br>
 
     <label for="sizeSlider">Size</label>
     <input type="range" id="sizeSlider" min="5" max="40" value="0">
 
     <br>
-    <button type="button" id="clearButton">Clear Canvas</button>
+    <label for="segmentSlider">Segments in Circle</label>
+    <input type="range" id="segmentSlider" min="1" max="15" value="0">
+
+    <br><br>
+
+    <button type="button" id="pointButton">Point</button>
+    <button type="button" id="triButton">Triangle</button>
+    <button type="button" id="circleButton">Circle</button>
+
+    <br><br>
+    <button type="button" id="clearButton">Clear</button>
+
+    <br><br>
+    <h3>My Drawing/Picture:<h3>
+    <img src="img/Drawing.jpg" alt="My Drawing / Picture " width="300" height="300">
+
+    <!-- Loading Scripts -->
 
     <script src="../lib/webgl-utils.js"></script>
     <script src="../lib/webgl-debug.js"></script>
     <script src="../lib/cuon-utils.js"></script>
+
+    <script src="Point.js"></script>
+    <script src="Triangle.js"></script>
+    <script src="Circle.js"></script>
     <script src="ColoredPoints.js"></script>
+
   </body>
 </html>
