@@ -74,7 +74,7 @@ const CIRCLE = 2;
 let g_selectedColor = [1.0, 1.0, 1.0, 1.0]; 
 let g_selectedSize = 5;
 let g_selectedType = POINT;
-let g_segment = 1;  // segment for the circle
+let g_segment = 10;  // segment for the circle
 
 // Set up actions for HTML UI elements
 function addActionsForHTMLUI() {
@@ -83,6 +83,13 @@ function addActionsForHTMLUI() {
   document.getElementById('redSlider').addEventListener('mouseup', function() { g_selectedColor[0] = this.value/100; });
   document.getElementById('greenSlider').addEventListener('mouseup', function()  { g_selectedColor[1] = this.value/100; });
   document.getElementById('blueSlider').addEventListener('mouseup', function() { g_selectedColor[2] = this.value/100; });
+
+  // pick a specific color
+  document.getElementById('colorPicker').addEventListener('input', function (e) {
+    let hexColor = e.target.value;
+    let rgb = hexToRgb(hexColor); // Convert to [r, g, b]
+    g_selectedColor = [rgb.r / 255, rgb.g / 255, rgb.b / 255, 1.0];
+  });
 
   // size slider event
   document.getElementById('sizeSlider').addEventListener('mouseup', function() { g_selectedSize = this.value; });
@@ -100,6 +107,15 @@ function addActionsForHTMLUI() {
 
   // clear button event
   document.getElementById('clearButton').onclick = function() {g_shapesList = []; renderAllShapes();};
+}
+
+function hexToRgb(hex) {
+  let bigint = parseInt(hex.slice(1), 16);
+  return {
+    r: (bigint >> 16) & 255,
+    g: (bigint >> 8) & 255,
+    b: bigint & 255
+  };
 }
 
 function main() {
